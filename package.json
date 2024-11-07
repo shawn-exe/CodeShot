@@ -1,10 +1,10 @@
 {
   "name": "codeshot",
   "displayName": "CodeShot",
-  "description": "VS code extension for code screenshot",
+  "description": "VS Code extension for capturing code screenshots",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.95.0"
+    "vscode": "^1.60.0"
   },
   "categories": [
     "Other"
@@ -12,10 +12,37 @@
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "screenshot-sidebar",
+          "title": "Code Screenshot",
+          "icon": "icons/camera.svg"
+        }
+      ]
+    },
+    "views": {
+      "screenshot-sidebar": [
+        {
+          "type": "webview",
+          "id": "screenshot-view",
+          "name": "Screenshot Tool",
+          "icon": "icons/camera.svg"
+        }
+      ]
+    },
     "commands": [
       {
-        "command": "codeshot.helloWorld",
-        "title": "Hello World"
+        "command": "codeshot.takeScreenshot",
+        "title": "Take Screenshot",
+        "icon": "$(camera)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "codeshot.takeScreenshot",
+        "key": "ctrl+shift+s",
+        "mac": "cmd+shift+s"
       }
     ]
   },
@@ -27,21 +54,25 @@
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
-    "lint": "eslint src",
-    "test": "vscode-test"
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.95.0",
+    "@types/html2canvas": "^1.0.0",
     "@types/mocha": "^10.0.9",
     "@types/node": "20.x",
-    "@typescript-eslint/eslint-plugin": "^8.10.0",
-    "@typescript-eslint/parser": "^8.7.0",
-    "eslint": "^9.13.0",
-    "typescript": "^5.6.3",
-    "ts-loader": "^9.5.1",
-    "webpack": "^5.95.0",
-    "webpack-cli": "^5.1.4",
+    "@types/vscode": "^1.60.0",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^8.53.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.2.2",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "html2canvas": "^1.4.1"
   }
 }
